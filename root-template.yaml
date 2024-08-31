@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Sample Parent Stack for deploying an EC2 instance using network, security, and IAM role stacks.
+
+Parameters:
+  S3BucketURL:
+    Type: String
+    Description: The URL of the S3 bucket containing the templates.
+  EC2InstanceType:
+    Type: String
+    Default: t2.micro
+    Description: The instance type for the EC2 instance.
+  SubnetId:
+    Type: String
+    Description: The subnet ID where the EC2 instance will be deployed.
+  EC2Name:
+    Type: String
+    Description: The EC2 instance name.
+  AMIId:
+    Type: String
+    Default: ami-0c55b159cbfafe1f0 # This is an example of the latest Amazon Linux 2 AMI ID
+    Description: The AMI ID for the EC2 instance.
+  UserDataS3Bucket:
+    Type: String
+    Description: The S3 bucket containing the user-data file.
+  UserDataFileName:
+    Type: String
+    Default: user-data.sh
+    Description: The name of the user-data file in the S3 bucket.
+
+Resources:
+  EC2Stack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "${S3BucketURL}/ec2.yaml"
+      Parameters:
+        EC2InstanceType: !Ref EC2InstanceType
+        EC2KeyName: !ImportValue SecurityStack-Ec2KeyPairName
+        SubnetId: !ImportValue
+          Fn::Sub: "${SubnetId}"
+        SecurityGroupId: !ImportValue SecurityStack-SecurityGroupId
+        EC2Name: !Ref EC2Name
+        AMIId: !Ref AMIId
+        UserDataS3Bucket: !Ref UserDataS3Bucket
+        UserDataFileName: !Ref UserDataFileName
+        InstanceProfileName: !ImportValue SecurityStack-InstanceProfileName
+
+Outputs:
+  EC2InstanceId:
+    Description: The ID of the EC2 instance.
+    Value: !GetAtt EC2Stack.Outputs.EC2InstanceId

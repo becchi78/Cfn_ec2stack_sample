@@ -1,0 +1,30 @@
+[
+  {
+    "ParameterKey": "S3BucketURL",
+    "ParameterValue": "https://cfn-nested-sample.s3.ap-northeast-1.amazonaws.com/ec2"
+  },
+  {
+    "ParameterKey": "EC2InstanceType",
+    "ParameterValue": "t2.micro"
+  },
+  {
+    "ParameterKey": "SubnetId",
+    "ParameterValue": "NetworkStack-SubnetId1"
+  },
+  {
+    "ParameterKey": "EC2Name",
+    "ParameterValue": "MyEC2"
+  },
+  {
+    "ParameterKey": "AMIId",
+    "ParameterValue": "ami-0f9ad2b210408cf91"
+  },
+  {
+    "ParameterKey": "UserDataS3Bucket",
+    "ParameterValue": "cfn-nested-sample/ec2"
+  },
+  {
+    "ParameterKey": "UserDataFileName",
+    "ParameterValue": "user-data.sh"
+  }
+]

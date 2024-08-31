@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Sample EC2 Stack for deploying an EC2 instance using nested stacks.
+
+Parameters:
+  EC2InstanceType:
+    Type: String
+    Description: The instance type for the EC2 instance.
+  EC2KeyName:
+    Type: String
+    Description: The key pair name for the EC2 instance.
+  SubnetId:
+    Type: String
+    Description: The subnet ID where the EC2 instance will be deployed.
+  SecurityGroupId:
+    Type: String
+    Description: The security group ID for the EC2 instance.
+  EC2Name:
+    Type: String
+    Description: The EC2 instance name.
+  AMIId:
+    Type: String
+    Description: The AMI ID for the EC2 instance.
+  UserDataS3Bucket:
+    Type: String
+    Description: The S3 bucket containing the user-data file.
+  UserDataFileName:
+    Type: String
+    Description: The name of the user-data file in the S3 bucket.
+  InstanceProfileName:
+    Type: String
+    Description: The name of the instance-profile.
+
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref EC2InstanceType
+      KeyName: !Ref EC2KeyName
+      SubnetId: !Ref SubnetId
+      SecurityGroupIds:
+        - !Ref SecurityGroupId
+      ImageId: !Ref AMIId
+      IamInstanceProfile: !Ref InstanceProfileName
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          aws s3 cp s3://${UserDataS3Bucket}/${UserDataFileName} /tmp/user-data.sh
+          chmod +x /tmp/user-data.sh
+          /tmp/user-data.sh
+      Tags:
+        - Key: Name
+          Value: !Ref EC2Name
+
+Outputs:
+  EC2InstanceId:
+    Description: The ID of the EC2 instance.
+    Value: !Ref EC2Instance
