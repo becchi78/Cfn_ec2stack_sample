@@ -21,7 +21,6 @@ aws cloudformation create-stack \
   --template-body file://root-template.yaml \
   --parameters file://param/parameters.json \
   --capabilities CAPABILITY_NAMED_IAM
-
 ```
 
 ## 削除
@@ -29,3 +28,9 @@ aws cloudformation create-stack \
 ```bash
 aws cloudformation delete-stack --stack-name Ec2Stack
 ```
+
+## Output
+
+| キー          | 説明                        | エクスポート名         |
+| ------------- | --------------------------- | ---------------------- |
+| EC2InstanceId | The ID of the EC2 instance. | Ec2Stack-Ec2InstanceId |

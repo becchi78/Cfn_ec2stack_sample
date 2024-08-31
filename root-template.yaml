@@ -48,3 +48,5 @@ Outputs:
   EC2InstanceId:
     Description: The ID of the EC2 instance.
     Value: !GetAtt EC2Stack.Outputs.EC2InstanceId
+    Export:
+      Name: Ec2Stack-Ec2InstanceId
