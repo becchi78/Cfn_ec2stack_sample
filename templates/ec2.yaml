@@ -18,7 +18,7 @@ Parameters:
     Type: String
     Description: The EC2 instance name.
   AMIId:
-    Type: String
+    Type: AWS::EC2::Image::Id
     Description: The AMI ID for the EC2 instance.
   UserDataS3Bucket:
     Type: String
