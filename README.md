@@ -4,11 +4,10 @@ Cfn のネステッドスタックとクロススタック参照のサンプル�
 
 ## 準備
 
-templates/と param/のファイルをあらかじめ S3 の cfn-nested-sample/ec2 に置いておく。
+templates/と param/user-data.sh のファイルをあらかじめ S3 の cfn-nested-sample/ec2 に置いておく。
 
 ```bash
 aws s3 cp ./templates/ec2.yaml s3://cfn-nested-sample/ec2/
-aws s3 cp ./param/parameters.json s3://cfn-nested-sample/ec2/
 aws s3 cp ./param/user-data.sh s3://cfn-nested-sample/ec2/
 ```
 
